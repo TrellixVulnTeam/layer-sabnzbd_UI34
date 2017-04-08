@@ -8,6 +8,8 @@ tags:
   # https://jujucharms.com/docs/stable/authors-charm-metadata
   - misc
 subordinate: false
+series:
+ - xenial
 #provides:
 #  provides-relation:
 #    interface: interface-name
