@@ -1,14 +1,14 @@
 options:
-  string-option:
+  sabuser:
     type: string
-    default: "Default Value"
-    description: "A short description of the configuration option"
-  boolean-option:
-    type: boolean
-    default: False
-    description: "A short description of the configuration option"
-  int-option:
-    type: int
-    default: 9001
-    description: "A short description of the configuration option"
+    default: "sabuser"
+    description: "The user to install sabnzbd under"
+#  boolean-option:
+#    type: boolean
+#    default: False
+#    description: "A short description of the configuration option"
+#  int-option:
+#    type: int
+#    default: 9001
+#    description: "A short description of the configuration option"
 
