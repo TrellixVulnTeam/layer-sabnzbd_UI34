@@ -10,6 +10,11 @@ tags:
 subordinate: false
 series:
  - xenial
+resources:
+  sabconfig:
+    type: file
+    filename: sabconfig.tgz
+    description: "Tar file of configuration folder to restore on install"
 #provides:
 #  provides-relation:
 #    interface: interface-name
