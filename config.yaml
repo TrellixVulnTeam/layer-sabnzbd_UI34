@@ -3,10 +3,6 @@ options:
     type: string
     default: "sabuser"
     description: "The user to install sabnzbd under"
-  use-dns:
-    type: boolean
-    default: True
-    description: "Use domain name or IP for binding sab daemon"
   port:
     type: int
     default: 8080
