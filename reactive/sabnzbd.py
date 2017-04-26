@@ -1,6 +1,6 @@
 from charms.reactive import when, when_all, when_not, set_state
 from charmhelpers.core import hookenv
-from charmhelpers.fetch import apt_install, add_source
+from charmhelpers.fetch import apt_install, add_source, apt_update
 from charmhelpers.core.host import adduser, service_start, service_restart, chownr
 from charmhelpers.core.hookenv import status_set, log, resource_get
 import os
@@ -14,9 +14,13 @@ import tarfile
 def install_sabnzbd():
     config = hookenv.config()
     status_set('maintenance','installing sabnzbd')
-    add_source('multiverse')
+    add_source('ppa:jcfp/nobetas')
+    add_source('ppa:jcfp/sab-addons')
+    apt_update()
     adduser(config['sabuser'],password=''''''.join([random.choice(string.printable) for _ in range(random.randint(8, 12))]),home_dir='/home/'+config['sabuser'])
     apt_install('python-openssl')
+    apt_install('par2-tbb')
+    apt_install('python-sabyenc')
     apt_install('sabnzbdplus')
     status_set('active','')
     set_state('sabnzbd.installed')
