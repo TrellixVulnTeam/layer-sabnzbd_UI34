@@ -15,9 +15,9 @@ resources:
     type: file
     filename: sabconfig.tgz
     description: "Tar file of configuration folder to restore on install"
-#provides:
-#  provides-relation:
-#    interface: interface-name
+provides:
+  usenet-downloader:
+    interface: usenet-downloader
 #requires:
 #  requires-relation:
 #    interface: interface-name
