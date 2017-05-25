@@ -74,14 +74,15 @@ def write_configs():
     set_state('sabnzbd.configured')
     set_state('sabnzbd.ready')
 
-@when('sabnzbd.configured')
 @when_not('usenetdownloader.configured')
+@when('usenetdownloader.triggered')
+@when('sabnzbd.configured')
 def configure_interface(usenetdownloader):
     hostname = socket.gethostname()
     port = config['port']
     for line in fileinput.input('/home/{}/.sabnzbd'.format(config['sabuser'])):
-        if line.startswith("api_key")
-        apikey = line.split("=")[1].strip()
+        if line.startswith("api_key"):
+            apikey = line.split("=")[1].strip()
     usenetdownloader.configure(hostname=hostname,port=port,apikey=apikey)
     log('usenet download provider configured','INFO')
 
