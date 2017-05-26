@@ -50,7 +50,6 @@ def restore_user_conf():
             log("Add sabconfig resource, see juju attach or disable restore-config",'ERROR')
             status_set('blocked','Waiting on sabconfig resource')
             return
-            # raise ValueError('Sabconfig resource missing, see juju attach or disable restore-config')
     set_state('sabnzbd.restored')
         
 
@@ -74,13 +73,13 @@ def write_configs():
     set_state('sabnzbd.configured')
     set_state('sabnzbd.ready')
 
-@when_not('usenetdownloader.configured')
-@when('usenetdownloader.triggered')
-@when('sabnzbd.configured')
+@when_not('usenet-downloader.configured')
+@when_all('usenet-downloader.triggered','sabnzbd.configured')
 def configure_interface(usenetdownloader):
+    config = hookenv.config()
     hostname = socket.gethostname()
     port = config['port']
-    for line in fileinput.input('/home/{}/.sabnzbd'.format(config['sabuser'])):
+    for line in fileinput.input('/home/{}/.sabnzbd/sabnzbd.ini'.format(config['sabuser'])):
         if line.startswith("api_key"):
             apikey = line.split("=")[1].strip()
     usenetdownloader.configure(hostname=hostname,port=port,apikey=apikey)
