@@ -17,7 +17,7 @@ def install_sabnzbd():
     add_source('ppa:jcfp/nobetas')
     add_source('ppa:jcfp/sab-addons')
     apt_update()
-    adduser(config['sabuser'],password=r''''''.join([random.choice(string.printable) for _ in range(random.randint(8, 12))]),home_dir='/home/'+config['sabuser'])
+    adduser(config['sabuser'],password="",shell='/bin/False',home_dir='/home/'+config['sabuser'])
     apt_install('python-openssl')
     apt_install('par2-tbb')
     apt_install('python-sabyenc')
