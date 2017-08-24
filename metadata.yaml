@@ -18,9 +18,9 @@ resources:
 provides:
   usenet-downloader:
     interface: usenet-downloader
-#requires:
-#  requires-relation:
-#    interface: interface-name
+requires:
+  reverseproxy:
+    interface: reverseproxy
 #peers:
 #  peer-relation:
 #    interface: interface-name
