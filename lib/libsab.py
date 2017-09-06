@@ -13,11 +13,11 @@ class SabInfo:
         self.user = self.charm_config['sabuser']
         self.home_dir = '/home/{}'.format(self.user)
         self.install_dir = self.home_dir + '/.sabnzbd'
-        self.settings_file = self.install_dir + '.sabnzbd.ini'
+        self.settings_file = self.install_dir + '/sabnzbd.ini'
         self.default_file = "/etc/default/sabnzbdplus"
         self.resource_name = 'sabconfig'
         self.resource_folder = hookenv.charm_dir() + '/resources'
-        self.sab_config = configparser.ConfigParser()
+        self.sab_config = configparser.ConfigParser(comment_prefixes=('#', ';', '__'))
         self.sab_config.read(self.settings_file)
 
     def reload_config(self):
@@ -73,7 +73,7 @@ class SabInfo:
             return False
 
     @property
-    def api_key(self):
+    def apikey(self):
         return self.sab_config['misc']['api_key']
         # for line in fileinput.input(self.settings_file):
         #     if line.startswith("api_key"):
