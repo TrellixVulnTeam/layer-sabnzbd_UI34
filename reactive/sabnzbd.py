@@ -36,7 +36,6 @@ def restore_user_conf():
 @when_all('sabnzbd.restored')
 @when_not('sabnzbd.configured')
 def write_configs():
-    # config = hookenv.config()
     hookenv.status_set('maintenance', 'configuring sabnzbd')
     sab.set_defaults()
     hookenv.open_port(sab.charm_config['port'], 'TCP')
@@ -69,7 +68,6 @@ def configure_interface(usenetdownloader):
 @when_all('reverseproxy.triggered', 'reverseproxy.ready')
 @when_not('reverseproxy.configured', 'reverseproxy.departed')
 def configure_reverseproxy(reverseproxy, *args):
-    # TODO: retrigger if config changes?
     hookenv.log("Setting up reverseproxy", "INFO")
     proxy_info = {'urlbase': sab.charm_config['proxy-url'],
                   'subdomain': sab.charm_config['proxy-domain'],
@@ -80,14 +78,25 @@ def configure_reverseproxy(reverseproxy, *args):
                   } 
 
     reverseproxy.configure(proxy_info)
-    # cp.set_urlbase(proxy_info['urlbase'])
-    # cp.restart()
 
 
 @when_all('reverseproxy.triggered', 'reverseproxy.departed')
 def remove_urlbase(reverseproxy, *args):
     hookenv.log("Removing reverseproxy configuration", "INFO")
-    # cp.set_urlbase('')
-    # cp.restart()
 
+
+@when('config.changed.port')
+def update_port():
+    if hookenv.hook_name() == "install":
+        hookenv.log("Not udpating port during install hook", "DEBUG")
+        return
+    hookenv.close_port(sab.charm_config.previous('port'), 'TCP')
+    hookenv.open_port(sab.charm_config['port'], 'TCP')
+    sab.set_defaults() 
+    host.service_restart('sabnzbdplus')
+    relations = hookenv.relations()
+    for relation in relations.keys():
+        if relations[relation]:
+            hookenv.log('Relations should be departed before updating port', 'WARNING')
+            hookenv.log('Port change not reflected in relation: {}'.format(relation), 'WARNING')
 

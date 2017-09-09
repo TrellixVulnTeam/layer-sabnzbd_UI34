@@ -31,15 +31,13 @@ class SabInfo:
         host.adduser(self.charm_config['sabuser'], password="", shell='/bin/False', home_dir=self.home_dir)
 
     def set_host(self):
+        # use set_defaults it appears sab updates host automatically
         self.sab_config['misc']['host'] = self.host
         hookenv.log("Couchpotato hostname set to {}".format(self.host), "INFO")
-        # for line in fileinput.input(self.settings_file, inplace=True):
-        #     if line.startswith("host="):
-        #         line = "host={}\n".format(self.host)
-        #     print(line, end='')  # end statement to avoid inserting new lines at the end of the line
 
     def set_port(self):
-        self.sab_config['misc']['port'] = self.charm_config['port']
+        # use set_defaults it appears sab updates port automatically
+        self.sab_config['misc']['port'] = str(self.charm_config['port'])
 
     def set_defaults(self):
         for line in fileinput.input(self.default_file, inplace=True):
@@ -47,8 +45,8 @@ class SabInfo:
                 line = "USER={}\n".format(self.charm_config['sabuser'])
             if line.startswith("HOST="):
                 line = "HOST={}\n".format(self.host)
-            if line.startswith("PORT=\n"):
-                line = "PORT={}".format(self.charm_config['port'])
+            if line.startswith("PORT="):
+                line = "PORT={}\n".format(self.charm_config['port'])
             print(line, end='')  # end statement to avoid inserting new lines at the end of the line
 
     def restore_config(self):
