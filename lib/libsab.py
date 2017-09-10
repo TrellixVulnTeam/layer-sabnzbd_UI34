@@ -60,9 +60,10 @@ class SabInfo:
         if backupFile:
             with tarfile.open(backupFile, 'r:gz') as inFile:
                 inFile.extractall(self.home_dir)
-            self.set_host() 
-            self.set_port()
-            self.save_config()
+            # self.set_defaults()
+            # self.set_host() 
+            # self.set_port()
+            # self.save_config()
             host.chownr(self.install_dir, owner=self.charm_config['sabuser'], group=self.charm_config['sabuser'])
             return True
         else:
