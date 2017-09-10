@@ -60,10 +60,6 @@ class SabInfo:
         if backupFile:
             with tarfile.open(backupFile, 'r:gz') as inFile:
                 inFile.extractall(self.home_dir)
-            # self.set_defaults()
-            # self.set_host() 
-            # self.set_port()
-            # self.save_config()
             host.chownr(self.install_dir, owner=self.charm_config['sabuser'], group=self.charm_config['sabuser'])
             return True
         else:
@@ -74,14 +70,8 @@ class SabInfo:
     @property
     def apikey(self):
         return self.sab_config['misc']['api_key']
-        # for line in fileinput.input(self.settings_file):
-        #     if line.startswith("api_key"):
-        #         apikey = line.split("=")[1].strip()
-        # return apikey
 
     @property
     @hookenv.cached
     def host(self):
         return socket.getfqdn()
-        # return socket.gethostname()
-        # TODO: should this use socket.getfqdn instead of just gethostname?
