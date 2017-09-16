@@ -14,7 +14,7 @@ This charm implements
    [HAProxy Charm][charm-haproxy]. This should be used if remote access is required 
    to enable TLS encryption. 
  * [interface:usenetdownloader][interface-usenetdownloader] intended for use
-   with the [Couchpotato Charm][charm-couchpotato].  
+   with the [Couchpotato Charm][charm-couchpotato], and [Sonarr Charm][charm-sonarr].
 
 ## Known Limitations and Issues
 
@@ -55,6 +55,7 @@ options that are worth highlighting.
 [sabnzbd]: https://sabnzbd.org/
 [charm-haproxy]: https://jujucharms.com/u/chris.sanders/haproxy
 [charm-sabnzbd]: https://jujucharms.com/u/chris.sanders/sabnzbd
+[charm-sonarr]: https://jujucharms.com/u/chris.sanders/sonarr
 [charm-couchpotato]: https://jujucharms.com/u/chris.sanders/couchpotato
 [interface-reverseproxy]: https://github.com/chris-sanders/interface-reverseproxy
 [interface-usenetdownloader]: https://github.com/chris-sanders/interface-usenet-downloader
