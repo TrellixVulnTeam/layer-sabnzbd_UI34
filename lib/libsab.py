@@ -39,6 +39,12 @@ class SabInfo:
         # use set_defaults it appears sab updates port automatically
         self.sab_config['misc']['port'] = str(self.charm_config['port'])
 
+    def set_url_base(self):
+        self.sab_config['misc']['url_base'] = str(self.charm_config['proxy-url'])
+
+    def clear_url_base(self):
+        self.sab_config['misc']['url_base'] = ''
+
     def set_defaults(self):
         for line in fileinput.input(self.default_file, inplace=True):
             if line.startswith("USER="):

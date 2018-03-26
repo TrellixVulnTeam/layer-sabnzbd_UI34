@@ -38,6 +38,8 @@ def restore_user_conf():
 def write_configs():
     hookenv.status_set('maintenance', 'configuring sabnzbd')
     sab.set_defaults()
+    sab.clear_url_base()
+    sab.save_config()
     hookenv.open_port(sab.charm_config['port'], 'TCP')
     host.service_restart('sabnzbdplus')
     hookenv.status_set('active', '')
@@ -76,13 +78,18 @@ def configure_reverseproxy(reverseproxy, *args):
                   'internal_host': sab.host,
                   'internal_port': sab.charm_config['port']
                   }
-
+    sab.set_url_base()
+    sab.save_config()
+    host.service_restart('sabnzbdplus')
     reverseproxy.configure(proxy_info)
 
 
 @when_all('reverseproxy.triggered', 'reverseproxy.departed')
 def remove_urlbase(reverseproxy, *args):
     hookenv.log("Removing reverseproxy configuration", "INFO")
+    sab.clear_url_base()
+    sab.save_config()
+    host.service_restart('sabnzbdplus')
 
 
 @when('config.changed.port')
