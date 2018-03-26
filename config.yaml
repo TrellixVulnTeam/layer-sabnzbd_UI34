@@ -21,7 +21,7 @@ options:
     description: "Subdomain to request from reverse proxy"
   proxy-url:
     type: string
-    default: "/sabnzbd"
+    default: "/sabnzbd/"
     description: 'Urlbase for revrse proxy, must start with a "/"'
   proxy-group:
     type: string
