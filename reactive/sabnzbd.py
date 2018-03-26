@@ -31,7 +31,7 @@ def restore_user_conf():
         if not sab.restore_config():
             return  # If restore failed exit with out setting the state
     set_state('sabnzbd.restored')
-        
+
 
 @when_all('sabnzbd.restored')
 @when_not('sabnzbd.configured')
@@ -71,11 +71,11 @@ def configure_reverseproxy(reverseproxy, *args):
     hookenv.log("Setting up reverseproxy", "INFO")
     proxy_info = {'urlbase': sab.charm_config['proxy-url'],
                   'subdomain': sab.charm_config['proxy-domain'],
-                  'group_id': 'sabnzbd',
+                  'group_id': sab.charm_config['proxy-group'],
                   'external_port': sab.charm_config['proxy-port'],
                   'internal_host': sab.host,
                   'internal_port': sab.charm_config['port']
-                  } 
+                  }
 
     reverseproxy.configure(proxy_info)
 
@@ -92,7 +92,7 @@ def update_port():
         return
     hookenv.close_port(sab.charm_config.previous('port'), 'TCP')
     hookenv.open_port(sab.charm_config['port'], 'TCP')
-    sab.set_defaults() 
+    sab.set_defaults()
     host.service_restart('sabnzbdplus')
     relations = hookenv.relations()
     for relation in relations.keys():
