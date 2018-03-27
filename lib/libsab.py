@@ -1,6 +1,6 @@
 from charmhelpers.core import hookenv, host
+from configobj import ConfigObj
 
-import configparser
 import fileinput
 import tarfile
 import socket
@@ -17,33 +17,31 @@ class SabInfo:
         self.default_file = "/etc/default/sabnzbdplus"
         self.resource_name = 'sabconfig'
         self.resource_folder = hookenv.charm_dir() + '/resources'
-        self.sab_config = configparser.ConfigParser(comment_prefixes=('#', ';', '__'))
-        self.sab_config.read(self.settings_file)
+        self.sab_config = ConfigObj(self.settings_file)
 
     def reload_config(self):
-        self.sab_config.read(self.settings_file)
+        self.sab_config = ConfigObj(self.settings_file)
 
     def save_config(self):
-        with open(self.settings_file, 'w') as openFile:
-            self.sab_config.write(openFile)
+        self.sab_config.write()
 
     def add_user(self):
         host.adduser(self.charm_config['sabuser'], password="", shell='/bin/False', home_dir=self.home_dir)
 
     def set_host(self):
-        # use set_defaults it appears sab updates host automatically
+        # TODO: call this rather than manually editing in set_defaults
         self.sab_config['misc']['host'] = self.host
         hookenv.log("Couchpotato hostname set to {}".format(self.host), "INFO")
 
     def set_port(self):
-        # use set_defaults it appears sab updates port automatically
+        # TODO: call this rather than manually editing in set_defaults
         self.sab_config['misc']['port'] = str(self.charm_config['port'])
 
     def set_url_base(self):
         self.sab_config['misc']['url_base'] = str(self.charm_config['proxy-url'])
 
     def clear_url_base(self):
-        self.sab_config['misc']['url_base'] = ''
+        self.sab_config['misc']['url_base'] = ' '
 
     def set_defaults(self):
         for line in fileinput.input(self.default_file, inplace=True):
@@ -54,6 +52,7 @@ class SabInfo:
             if line.startswith("PORT="):
                 line = "PORT={}\n".format(self.charm_config['port'])
             print(line, end='')  # end statement to avoid inserting new lines at the end of the line
+        self.reload_config()
 
     def restore_config(self):
         try:

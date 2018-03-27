@@ -42,7 +42,7 @@ def write_configs():
     sab.save_config()
     hookenv.open_port(sab.charm_config['port'], 'TCP')
     host.service_restart('sabnzbdplus')
-    hookenv.status_set('active', '')
+    hookenv.status_set('active', 'Sabnzbd is ready')
     set_state('sabnzbd.configured')
     set_state('sabnzbd.ready')
 
