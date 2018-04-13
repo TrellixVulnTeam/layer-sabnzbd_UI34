@@ -29,12 +29,10 @@ class SabInfo:
         host.adduser(self.charm_config['sabuser'], password="", shell='/bin/False', home_dir=self.home_dir)
 
     def set_host(self):
-        # TODO: call this rather than manually editing in set_defaults
         self.sab_config['misc']['host'] = self.host
         hookenv.log("Couchpotato hostname set to {}".format(self.host), "INFO")
 
     def set_port(self):
-        # TODO: call this rather than manually editing in set_defaults
         self.sab_config['misc']['port'] = str(self.charm_config['port'])
 
     def set_url_base(self):

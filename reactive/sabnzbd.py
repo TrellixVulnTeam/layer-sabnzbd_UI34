@@ -38,8 +38,9 @@ def restore_user_conf():
 def write_configs():
     hookenv.status_set('maintenance', 'configuring sabnzbd')
     sab.set_defaults()
-    sab.clear_url_base()
-    sab.save_config()
+    if sab.charm_config['restore-config']:
+        sab.clear_url_base()
+        sab.save_config()
     hookenv.open_port(sab.charm_config['port'], 'TCP')
     host.service_restart('sabnzbdplus')
     hookenv.status_set('active', 'Sabnzbd is ready')
