@@ -38,12 +38,12 @@ class TestSabnzbd():
             raise
 
     def test_web_frontend(self, deploy, sabnzbd):
-        page = requests.get('http://{}:{}'.format(sabnzbd.info['public-address'], 9090))
+        page = requests.get('http://{}:{}'.format(sabnzbd.info['public-address'], 8080))
         assert page.status_code == 200
         print(page)
 
     def test_reverseproxy(self, deploy, sabnzbd, haproxy):
-        page = requests.get('http://{}:{}'.format(sabnzbd.info['public-address'], 9090))
+        page = requests.get('http://{}:{}'.format(sabnzbd.info['public-address'], 8080))
         assert page.status_code == 200
         deploy.relate('sabnzbd:reverseproxy', 'haproxy:reverseproxy')
         time.sleep(15)
@@ -57,7 +57,8 @@ class TestSabnzbd():
             print(action_output)
             assert action_output['status'] == 'completed'
         # Restart so it's running not part of the test
-        sabnzbd.run_action('start')
+        # Start/Stop/Restart not implemented yet
+        # sabnzbd.run_action('start')
 
     #     # test we can access over http
     #     # page = requests.get('http://{}'.format(self.unit.info['public-address']))
