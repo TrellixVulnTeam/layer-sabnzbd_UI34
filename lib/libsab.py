@@ -1,6 +1,7 @@
 from charmhelpers.core import hookenv, host
 from configobj import ConfigObj
 
+import fileinput
 import tarfile
 import socket
 import os
@@ -27,13 +28,13 @@ class SabInfo:
     def add_user(self):
         host.adduser(self.charm_config['sabuser'], password="", shell='/bin/False', home_dir=self.home_dir)
 
-    def set_user(self):
-        self.sab_config['misc']['user'] = self.charm_config['sabuser']
-
     def set_host(self):
+        # TODO: call this rather than manually editing in set_defaults
         self.sab_config['misc']['host'] = self.host
+        hookenv.log("Couchpotato hostname set to {}".format(self.host), "INFO")
 
     def set_port(self):
+        # TODO: call this rather than manually editing in set_defaults
         self.sab_config['misc']['port'] = str(self.charm_config['port'])
 
     def set_url_base(self):
@@ -43,9 +44,15 @@ class SabInfo:
         self.sab_config['misc']['url_base'] = ' '
 
     def set_defaults(self):
-        self.set_user()
-        self.set_host()
-        self.set_port()
+        for line in fileinput.input(self.default_file, inplace=True):
+            if line.startswith("USER="):
+                line = "USER={}\n".format(self.charm_config['sabuser'])
+            if line.startswith("HOST="):
+                line = "HOST={}\n".format(self.host)
+            if line.startswith("PORT="):
+                line = "PORT={}\n".format(self.charm_config['port'])
+            print(line, end='')  # end statement to avoid inserting new lines at the end of the line
+        self.reload_config()
 
     def restore_config(self):
         try:

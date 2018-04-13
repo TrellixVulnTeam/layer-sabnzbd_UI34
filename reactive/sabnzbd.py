@@ -99,8 +99,7 @@ def update_port():
         return
     hookenv.close_port(sab.charm_config.previous('port'), 'TCP')
     hookenv.open_port(sab.charm_config['port'], 'TCP')
-    sab.set_port()
-    sab.save_config()
+    sab.set_defaults()
     host.service_restart('sabnzbdplus')
     relations = hookenv.relations()
     for relation in relations.keys():
