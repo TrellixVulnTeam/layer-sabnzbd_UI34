@@ -3,5 +3,5 @@ repo: git@github.com:chris-sanders/layer-sabnzbd.git
 options:
   backup:
     backup-name: "sabnzbd"
-    backup-files: >-
+    backup-files: |-
       /home/{sabuser}/.sabnzbd
