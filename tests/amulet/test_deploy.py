@@ -46,7 +46,7 @@ class TestSabnzbd():
         page = requests.get('http://{}:{}'.format(sabnzbd.info['public-address'], 8080))
         assert page.status_code == 200
         deploy.relate('sabnzbd:reverseproxy', 'haproxy:reverseproxy')
-        time.sleep(15)
+        time.sleep(20)
         page = requests.get('http://{}:{}/sabnzbd'.format(haproxy.info['public-address'], 80))
         assert page.status_code == 200
 
