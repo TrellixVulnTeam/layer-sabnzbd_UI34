@@ -12,3 +12,10 @@ options:
     backup-name: "sabnzbd"
     backup-files: |-
       /home/{sabuser}/.sabnzbd
+  service-account:
+    users:
+      - 'sabuser'
+    groups:
+      - 'sabuser'
+    membership:
+      - 'sabuser': ['sabuser']

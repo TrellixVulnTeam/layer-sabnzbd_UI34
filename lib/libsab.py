@@ -10,7 +10,7 @@ import os
 class SabInfo:
     def __init__(self):
         self.charm_config = hookenv.config()
-        self.user = self.charm_config['sabuser']
+        self.user = "sabuser"  # Must match the config in layer.yaml
         self.home_dir = '/home/{}'.format(self.user)
         self.install_dir = self.home_dir + '/.sabnzbd'
         self.settings_file = self.install_dir + '/sabnzbd.ini'
@@ -24,9 +24,6 @@ class SabInfo:
 
     def save_config(self):
         self.sab_config.write()
-
-    def add_user(self):
-        host.adduser(self.charm_config['sabuser'], password="", shell='/bin/False', home_dir=self.home_dir)
 
     def set_host(self):
         self.sab_config['misc']['host'] = self.host

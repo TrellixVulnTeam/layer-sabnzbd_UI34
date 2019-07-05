@@ -9,13 +9,13 @@ from libsab import SabInfo
 sab = SabInfo()
 
 
+@when_all('layer-service-account.configured')
 @when_not('sabnzbd.installed')
 def install_sabnzbd():
     hookenv.status_set('maintenance', 'installing sabnzbd')
     fetch.add_source('ppa:jcfp/nobetas')
     fetch.add_source('ppa:jcfp/sab-addons')
     fetch.apt_update()
-    sab.add_user()
     fetch.apt_install('python-openssl')
     fetch.apt_install('par2-tbb')
     fetch.apt_install('python-sabyenc')
