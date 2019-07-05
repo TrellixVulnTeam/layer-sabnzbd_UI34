@@ -41,7 +41,7 @@ class SabInfo:
     def set_defaults(self):
         for line in fileinput.input(self.default_file, inplace=True):
             if line.startswith("USER="):
-                line = "USER={}\n".format(self.charm_config['sabuser'])
+                line = "USER={}\n".format(self.user)
             if line.startswith("HOST="):
                 line = "HOST={}\n".format(self.host)
             if line.startswith("PORT="):
@@ -60,7 +60,7 @@ class SabInfo:
         if backupFile:
             with tarfile.open(backupFile, 'r:gz') as inFile:
                 inFile.extractall(self.home_dir)
-            host.chownr(self.install_dir, owner=self.charm_config['sabuser'], group=self.charm_config['sabuser'])
+            host.chownr(self.install_dir, owner=self.user, group=self.user)
             return True
         else:
             hookenv.log("Add sabconfig resource, see juju attach or disable restore-config", 'ERROR')
